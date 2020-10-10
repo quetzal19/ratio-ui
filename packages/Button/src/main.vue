@@ -23,7 +23,7 @@ export default {
     nativeType: {
       type: String,
       default: 'button',
-      validator: (value) => (['button', 'submit'].indexOf(value) !== - 1),
+      validator: (value) => (['button', 'submit'].indexOf(value) !== -1),
     },
   },
 
