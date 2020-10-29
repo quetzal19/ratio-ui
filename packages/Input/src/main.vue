@@ -7,6 +7,7 @@
       {{ errorMessage }}
     </div>
     <input
+      v-if="type !== 'tel'"
       class="r-input"
       v-model="value"
       :class="inputClass"
@@ -15,15 +16,28 @@
       :placeholder="placeholder"
       v-on="$listeners"
     >
+    <TheMask
+      v-if="type === 'tel'"
+      class="r-input"
+      v-model="value"
+      :class="inputClass"
+      :disabled="disabled"
+      :type="type"
+      mask="+7 (###) ###-##-##"
+      :placeholder="placeholder"
+      v-on="$listeners"
+    />
   </div>
 </template>
 <script>
-export default {
-  /**
-   * события focus, active, blur, input, change
-   */
+import { TheMask } from 'vue-the-mask';
 
+export default {
   name: 'RInput',
+
+  components: {
+    TheMask,
+  },
 
   props: {
     disabled: {
@@ -66,6 +80,10 @@ export default {
         required: '*Введите email',
         invalid: 'Email введён неверно',
       },
+      tel: {
+        required: '*Введите телефон',
+        invalid: 'Телефон введён неверно',
+      },
     },
   }),
 
@@ -77,7 +95,6 @@ export default {
 
   watch: {
     value() {
-      console.log('changed!');
       this.clear();
     },
 
@@ -107,7 +124,6 @@ export default {
      * @returns {boolean} - true если всё хорошо и false если валидация провалилась
      */
     validate() {
-      console.log('validating');
       if (this.isRequired && !this.value) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].required;
@@ -115,6 +131,12 @@ export default {
       }
 
       if (this.type === 'email' && this.validators.indexOf('email') !== -1 && !this.validateEmail()) {
+        this.isError = true;
+        this.errorMessage = this.errorsVocabulary[this.type].invalid;
+        return false;
+      }
+
+      if (this.type === 'tel' && this.value.length !== 10) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].invalid;
         return false;
