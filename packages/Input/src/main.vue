@@ -32,6 +32,12 @@
 <script>
 import { TheMask } from 'vue-the-mask';
 
+/**
+ * @desc Универсальный компонент инпута.
+ * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное значение
+ * которое надо установить в value
+ */
+
 export default {
   name: 'RInput',
 
@@ -64,6 +70,10 @@ export default {
     customErrors: {
       type: Object,
       default: () => {},
+    },
+    bindedValue: {
+      type: [String, Number],
+      default: '',
     },
   },
 
@@ -98,6 +108,12 @@ export default {
       this.clear();
     },
 
+    bindedValue(value) {
+      if (this.value !== value) {
+        this.value = value;
+      }
+    },
+
     isError(value) {
       this.$emit('errorStatus', value);
     },
@@ -106,6 +122,10 @@ export default {
   mounted() {
     if (this.customErrors && Object.keys(this.customErrors).length) {
       this.mergeVocabulary();
+    }
+
+    if (this.bindedValue) {
+      this.value = this.bindedValue;
     }
   },
 

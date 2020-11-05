@@ -71,7 +71,7 @@ export default {
       default: '',
     },
     pickedItem: {
-      type: Object,
+      type: [Object, String],
       default: () => {},
     },
     options: {
@@ -104,24 +104,49 @@ export default {
   },
 
   methods: {
+    /**
+     * Установка значения полученного извне
+     */
     setPicked() {
+      if (typeof this.pickedItem === 'string') {
+        this.picked = {
+          [this.nameValue]: this.pickedItem,
+        };
+        return;
+      }
       if (this.pickedItem && Object.keys(this.pickedItem).length) {
         this.picked = this.pickedItem;
       }
     },
 
+    /**
+     * Клик по шапке селектра. Это то место где отображаются плейсхолдеры и выбранные элементы
+     */
     handleHeaderClick() {
       this.opened = !this.opened;
     },
 
+    /**
+     * Клик вне селектора, закрывает выпадашку
+     */
     handleClickOutside() {
       this.opened = false;
     },
 
+    /**
+     * Обработчик клика по элементу в выпадашке
+     */
     handlePickItem(item) {
       this.picked = item;
       this.$emit('picked', item);
       this.handleClickOutside();
+    },
+
+    /**
+     * Сброс значений
+     */
+    dropValue() {
+      this.picked = {};
     },
   },
 };
