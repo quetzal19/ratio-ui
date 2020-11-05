@@ -142,11 +142,12 @@ label {
   font-size: 12px;
   line-height: 18px;
   text-transform: none;
+  cursor: pointer;
 
   &.square,
   &.round {
 
-    &:before {
+    &::before {
       content: "";
       position: absolute;
       top: 1px;
@@ -157,7 +158,7 @@ label {
       border: 1px solid #1C9AD0;
     }
 
-    &:after {
+    &::after {
       content: "";
       position: absolute;
       top: 4px;
@@ -171,11 +172,11 @@ label {
 
   &.round {
 
-    &:before {
+    &::before {
       border-radius: 50%;
     }
 
-    &:after {
+    &::after {
       border-radius: 50%;
     }
   }
