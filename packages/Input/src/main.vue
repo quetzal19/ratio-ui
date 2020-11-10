@@ -3,6 +3,33 @@
     class="input-container"
     :class="{'_is-error': isError, '_is-info': isInfo}"
   >
+    <div
+      v-if="type === 'password' && enableShowPasswordIcons"
+      class="password-show"
+      @mouseenter="iconPasswordHovered = true"
+      @mouseleave="iconPasswordHovered = false"
+    >
+      <div v-if="showPassword" class="open" @click="showPassword = false">
+        <div v-if="iconPasswordHovered">
+          <img v-if="!showPasswordIcons" src="./ico/password-hide.svg">
+          <img v-else :src="showPasswordIcons.hide">
+        </div>
+        <div v-else>
+          <img v-if="!showPasswordIcons" src="./ico/password-show.svg">
+          <img v-else :src="showPasswordIcons.show">
+        </div>
+      </div>
+      <div v-else class="close" @click="showPassword = true">
+        <div v-if="iconPasswordHovered">
+          <img v-if="!showPasswordIcons" src="./ico/password-show.svg">
+          <img v-else :src="showPasswordIcons.show">
+        </div>
+        <div v-else>
+          <img v-if="!showPasswordIcons" src="./ico/password-hide.svg">
+          <img v-else :src="showPasswordIcons.hide">
+        </div>
+      </div>
+    </div>
     <div v-if="isError || isInfo" class="message">
       {{ errorMessage }}
     </div>
@@ -12,7 +39,7 @@
       v-model="value"
       :class="inputClass"
       :disabled="disabled"
-      :type="type"
+      :type="typeComputed"
       :placeholder="placeholder"
       v-on="$listeners"
     >
@@ -34,8 +61,12 @@ import { TheMask } from 'vue-the-mask';
 
 /**
  * @desc Универсальный компонент инпута.
- * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное значение
- * которое надо установить в value
+ * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное значение которое надо установить в value.
+ * @vue-prop { Boolean } [enableShowPasswordIcons=true] enableShowPasswordIcons - показать/скрыть иконки для пароля.
+ * @vue-prop { Object } [showPasswordIcons={}] showPasswordIcons - если нужно передать кастомные
+ * иконки для показа/сокрытия пароля, то передавать пути к ним надо сюда как объект с полями show и hide
+ * @vue-computed { String } typeComputed - Перед передачей в шаблон обрабатываем тип.
+ * В данный момент используется для тоглера с паролями.
  */
 
 export default {
@@ -75,6 +106,14 @@ export default {
       type: [String, Number],
       default: '',
     },
+    enableShowPasswordIcons: {
+      type: Boolean,
+      default: true,
+    },
+    showPasswordIcons: {
+      type: Object,
+      default: () => {},
+    },
   },
 
   data: () => ({
@@ -95,11 +134,20 @@ export default {
         invalid: 'Телефон введён неверно',
       },
     },
+
+    showPassword: false,
+    iconPasswordHovered: false,
   }),
 
   computed: {
     isRequired() {
       return this.validators && this.validators.indexOf('required') !== -1;
+    },
+    typeComputed() {
+      if (this.type === 'password') {
+        return this.showPassword ? 'input' : 'password';
+      }
+      return this.type;
     },
   },
 
@@ -196,5 +244,21 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.password-show {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  display: flex;
+  align-items: center;
+  width: 25px;
+  height: 100%;
+  cursor: pointer;
+
+  .close,
+  .open {
+    height: 16px;
+  }
 }
 </style>
