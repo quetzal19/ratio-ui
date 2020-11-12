@@ -2,7 +2,7 @@
   <div class="radio-container">
     <label
       :for="uniqName"
-      :class="[{'_picked': value}, type]"
+      :class="[{'_picked': value, '_disabled': disabled}, type]"
     >
       <img
         v-if="type === 'normal' && !iconPath"
@@ -34,7 +34,8 @@
  * @desc Универсальный компонент радио-кнопок
  * @vue-prop {String} [type='square'] type - Форма кнопок. normal/switcher
  * @vue-prop {String} [uniqName='buttonGroup'] uniqName - Уникальное имя для чекбокса
- * @vue-prop {Object} [default=false] default - Выбранный из другого места итем
+ * @vue-prop {Object} [default={}] default - Выбранный из другого места итем
+ * @vue-prop {Boolean} [disabled=false] disabled - Отключение интерактивности чекбокса
  * @vue-prop {String} [iconPath='./ico/success.svg'] iconPath - Иконка активного чекбокса
  * для стандартного представления
  */
@@ -58,6 +59,10 @@ export default {
     iconPath: {
       type: String,
       default: '',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -179,6 +184,11 @@ label {
     &::after {
       transform: translateX(18px);
     }
+  }
+
+  &._disabled {
+    opacity: .3;
+    pointer-events: none;
   }
 }
 </style>
