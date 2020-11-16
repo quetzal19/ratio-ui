@@ -152,8 +152,8 @@ label {
       position: absolute;
       top: 1px;
       left: 0;
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       border-radius: 2px;
       border: 1px solid #1C9AD0;
     }
@@ -163,8 +163,8 @@ label {
       position: absolute;
       top: 4px;
       left: 3px;
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       border-radius: 2px;
       background: #1C9AD0;
     }
