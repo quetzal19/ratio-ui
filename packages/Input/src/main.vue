@@ -4,14 +4,17 @@
     :class="{'_is-error': isError, '_is-info': isInfo}"
   >
     <div
-      v-if="type === 'password' && enableShowPasswordIcons"
+      v-if="type === 'password' && enableShowPasswordIcons && value"
       class="password-show"
       @mouseenter="iconPasswordHovered = true"
       @mouseleave="iconPasswordHovered = false"
     >
       <div v-if="showPassword" class="open" @click="showPassword = false">
         <div v-if="iconPasswordHovered">
-          <img v-if="!showPasswordIcons" src="./ico/password-hide.svg">
+          <img v-if="!showPasswordIcons"
+               src="./ico/password-hide.svg"
+               style="position: relative; top: 2px;"
+          >
           <img v-else :src="showPasswordIcons.hide">
         </div>
         <div v-else>
@@ -25,7 +28,10 @@
           <img v-else :src="showPasswordIcons.show">
         </div>
         <div v-else>
-          <img v-if="!showPasswordIcons" src="./ico/password-hide.svg">
+          <img v-if="!showPasswordIcons"
+               src="./ico/password-hide.svg"
+               style="position: relative; top: 2px;"
+          >
           <img v-else :src="showPasswordIcons.hide">
         </div>
       </div>
