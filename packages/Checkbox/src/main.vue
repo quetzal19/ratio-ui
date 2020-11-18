@@ -135,6 +135,10 @@ label {
       border-radius: 2px;
       border: 1px solid #1C9AD0;
     }
+
+    &:hover {
+      color: #1C9AD0;
+    }
   }
 
   .icon {
@@ -175,7 +179,6 @@ label {
   }
 
   &:not(._picked) {
-    opacity: .5;
 
     .icon {
       display: none;
