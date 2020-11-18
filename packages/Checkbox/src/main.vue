@@ -23,7 +23,7 @@
       :id="uniqName"
       type="checkbox"
       :value="value"
-      @change="handleChange(item)"
+      @change="handleChange"
     >
   </div>
 </template>
