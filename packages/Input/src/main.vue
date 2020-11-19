@@ -131,6 +131,9 @@ export default {
       text: {
         required: 'Поле обязательно',
       },
+      password: {
+        required: 'Введите пароль',
+      },
       email: {
         required: '*Введите email',
         invalid: 'Email введён неверно',
