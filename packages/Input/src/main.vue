@@ -232,6 +232,14 @@ export default {
     },
 
     /**
+     * Установка кастомной ошибки извне компонента
+     */
+    setErrorState(message) {
+      this.isError = true;
+      this.errorMessage = message;
+    },
+
+    /**
      * Если пришли кастомные сообщения, то добавляем их в словарь ошибок
      */
     mergeVocabulary() {
