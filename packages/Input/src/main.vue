@@ -59,6 +59,7 @@
       mask="+7 (###) ###-##-##"
       :placeholder="placeholder"
       v-on="$listeners"
+      v-bind="$attrs"
     />
   </div>
 </template>
@@ -213,7 +214,8 @@ export default {
         return false;
       }
 
-      if (this.type === 'tel' && this.value.length !== 10) {
+      console.log(this.value.length);
+      if (this.type === 'tel' && this.value.length < 10) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].invalid;
         return false;

@@ -53,6 +53,7 @@ export default {
    * отображения отлична от name
    * @vue-prop { String } [error=''] error - При получении данного пропа
    * появляется сообщение об ошибке
+   * @vue-emit { Object } [picked=''] picked - выбранный объект
    */
 
   name: 'RSelector',
@@ -108,7 +109,7 @@ export default {
      * Установка значения полученного извне
      */
     setPicked() {
-      if (typeof this.pickedItem === 'string') {
+      if (this.pickedItem && typeof this.pickedItem === 'string') {
         this.picked = {
           [this.nameValue]: this.pickedItem,
         };
