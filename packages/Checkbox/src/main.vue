@@ -154,6 +154,10 @@ label {
   &.switcher {
     width: 38px;
 
+    &:not(._picked) {
+      opacity: .5;
+    }
+
     &::before {
       content: "";
       position: absolute;
