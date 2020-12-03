@@ -67,12 +67,15 @@ import { TheMask } from 'vue-the-mask';
 
 /**
  * @desc Универсальный компонент инпута.
- * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное значение которое надо установить в value.
- * @vue-prop { Boolean } [enableShowPasswordIcons=true] enableShowPasswordIcons - показать/скрыть иконки для пароля.
+ * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное
+ * значение которое надо установить в value.
+ * @vue-prop { Boolean } [enableShowPasswordIcons=true] enableShowPasswordIcons -
+ * показать/скрыть иконки для пароля.
  * @vue-prop { Object } [showPasswordIcons={}] showPasswordIcons - если нужно передать кастомные
- * иконки для показа/сокрытия пароля, то передавать пути к ним надо сюда как объект с полями show и hide
+ * иконки для показа/сокрытия пароля, то передавать пути к ним надо сюда как объект c полями show
+ * и hide
  * @vue-computed { String } typeComputed - Перед передачей в шаблон обрабатываем тип.
- * В данный момент используется для тоглера с паролями.
+ * В данный момент используется для тоглера c паролями.
  */
 
 export default {
@@ -189,6 +192,7 @@ export default {
      * @returns {boolean}
      */
     validateEmail() {
+      // eslint-disable-next-line
       const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       return re.test(String(this.value).toLowerCase());
     },
