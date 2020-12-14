@@ -154,6 +154,10 @@ label {
   &.switcher {
     width: 38px;
 
+    &:not(._picked) {
+      opacity: .5;
+    }
+
     &::before {
       content: "";
       position: absolute;
@@ -176,16 +180,18 @@ label {
       background: #1C9AD0;
       transition: transform .2s;
     }
+
+    &._picked {
+      &::after {
+        transform: translateX(18px);
+      }
+    }
   }
 
   &:not(._picked) {
 
     .icon {
       display: none;
-    }
-
-    &::after {
-      transform: translateX(18px);
     }
   }
 

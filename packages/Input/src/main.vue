@@ -59,6 +59,7 @@
       mask="+7 (###) ###-##-##"
       :placeholder="placeholder"
       v-on="$listeners"
+      v-bind="$attrs"
     />
   </div>
 </template>
@@ -133,6 +134,9 @@ export default {
     errorsVocabulary: {
       text: {
         required: 'Поле обязательно',
+      },
+      password: {
+        required: 'Введите пароль',
       },
       email: {
         required: '*Введите email',
@@ -214,7 +218,8 @@ export default {
         return false;
       }
 
-      if (this.type === 'tel' && this.value.length !== 10) {
+      console.log(this.value.length);
+      if (this.type === 'tel' && this.value.length < 10) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].invalid;
         return false;
@@ -230,6 +235,14 @@ export default {
     clear() {
       this.isError = false;
       this.errorMessage = '';
+    },
+
+    /**
+     * Установка кастомной ошибки извне компонента
+     */
+    setErrorState(message) {
+      this.isError = true;
+      this.errorMessage = message;
     },
 
     /**
