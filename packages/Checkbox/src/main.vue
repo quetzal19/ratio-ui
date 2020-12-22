@@ -74,6 +74,10 @@ export default {
     default(value) {
       this.value = value;
     },
+
+    value(value) {
+      this.$emit('valueHasChanged', value);
+    },
   },
 
   mounted() {
