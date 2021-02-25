@@ -52,6 +52,7 @@
     <TheMask
       v-if="type === 'tel'"
       class="r-input"
+      ref="phoneMask"
       v-model="value"
       :class="inputClass"
       :disabled="disabled"
@@ -60,6 +61,7 @@
       :placeholder="placeholder"
       v-on="$listeners"
       v-bind="$attrs"
+      @click.native="handleTelFocus"
     />
   </div>
 </template>
@@ -192,6 +194,19 @@ export default {
 
   methods: {
     /**
+     * Активация маски телефона по клику
+     */
+    handleTelFocus() {
+      if (!this.value) {
+        this.$refs.phoneMask.onInput({
+          isTrusted: false,
+          target: {
+            value: ' (',
+          }
+        });
+      }
+    },
+    /**
      * Проверка является ли email валидным
      * @returns {boolean}
      */
@@ -218,7 +233,6 @@ export default {
         return false;
       }
 
-      console.log(this.value.length);
       if (this.type === 'tel' && this.value.length < 10) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].invalid;
