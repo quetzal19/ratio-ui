@@ -1,7 +1,11 @@
 <template>
   <div
     class="input-container"
-    :class="{'_is-error': isError, '_is-info': isInfo}"
+    :class="{
+      '_is-error': isError,
+      '_is-info': isInfo,
+      '_required': validators && validators.indexOf('required') !== -1 && !value,
+    }"
   >
     <div
       v-if="type === 'password' && enableShowPasswordIcons && value"
@@ -135,10 +139,10 @@ export default {
     errorMessage: '',
     errorsVocabulary: {
       text: {
-        required: 'Поле обязательно',
+        required: '*Поле обязательно',
       },
       password: {
-        required: 'Введите пароль',
+        required: '*Введите пароль',
       },
       email: {
         required: '*Введите email',
