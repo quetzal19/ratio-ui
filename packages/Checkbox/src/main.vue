@@ -140,6 +140,10 @@ export default {
   cursor: default !important;
 }
 
+label {
+  z-index: 5;
+}
+
 label,
 .text-only {
   position: relative;
