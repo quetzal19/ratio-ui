@@ -5,6 +5,21 @@
       :class="[{'_picked': value, '_disabled': disabled}, type]"
     >
       <img
+        v-if="!disableTextClick && type === 'normal' && !iconPath"
+        src="./ico/success.svg"
+        alt="Иконка успеха"
+        class="icon"
+      >
+      <img
+        v-if="!disableTextClick && type === 'normal' && iconPath"
+        :src="iconPath"
+        alt="Иконка успеха"
+        class="icon"
+      >
+      <slot v-if="!disableTextClick && type === 'normal'" />
+    </label>
+    <div v-if="disableTextClick" class="text-only">
+      <img
         v-if="type === 'normal' && !iconPath"
         src="./ico/success.svg"
         alt="Иконка успеха"
@@ -17,7 +32,7 @@
         class="icon"
       >
       <slot v-if="type === 'normal'" />
-    </label>
+    </div>
     <input
       v-show="false"
       :id="uniqName"
@@ -36,6 +51,7 @@
  * @vue-prop {String} [uniqName='buttonGroup'] uniqName - Уникальное имя для чекбокса
  * @vue-prop {Object} [default={}] default - Выбранный из другого места итем
  * @vue-prop {Boolean} [disabled=false] disabled - Отключение интерактивности чекбокса
+ * @vue-prop {Boolean} [disableTextClick=false] disableTextClick - Отключение клика по тексту
  * @vue-prop {String} [iconPath='./ico/success.svg'] iconPath - Иконка активного чекбокса
  * для стандартного представления
  */
@@ -61,6 +77,10 @@ export default {
       default: '',
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    disableTextClick: {
       type: Boolean,
       default: false,
     },
@@ -116,7 +136,12 @@ export default {
   margin-bottom: 8px;
 }
 
-label {
+.text-only {
+  cursor: default !important;
+}
+
+label,
+.text-only {
   position: relative;
   display: flex;
   align-items: center;
