@@ -43,6 +43,9 @@
     <div v-if="isError || isInfo" class="message">
       {{ errorMessage }}
     </div>
+    <span v-if="validators.indexOf('required') !== -1" class="obligatory-star">
+      *
+    </span>
     <input
       v-if="type !== 'tel'"
       class="r-input"
@@ -206,7 +209,7 @@ export default {
           isTrusted: false,
           target: {
             value: ' (',
-          }
+          },
         });
       }
     },
@@ -279,6 +282,14 @@ export default {
 <style lang="scss" scoped>
 .input-container {
   position: relative;
+}
+
+.obligatory-star {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 8px;
+  color: #E91928;
 }
 
 .message {
