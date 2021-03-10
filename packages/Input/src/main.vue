@@ -50,7 +50,7 @@
       v-if="type !== 'tel'"
       class="r-input"
       v-model="value"
-      :class="inputClass"
+      :class="[inputClass, {'_invalid' : isError}]"
       :disabled="disabled"
       :type="typeComputed"
       :placeholder="placeholder"
@@ -61,7 +61,7 @@
       class="r-input"
       ref="phoneMask"
       v-model="value"
-      :class="inputClass"
+      :class="[inputClass, {'_invalid' : isError}]"
       :disabled="disabled"
       :type="type"
       mask="+7 (###) ###-##-##"
@@ -288,13 +288,15 @@ export default {
   position: absolute;
   top: 4px;
   right: 4px;
-  font-size: 8px;
-  color: #E91928;
+}
+
+input {
+  transition: .1s;
 }
 
 .message {
   position: absolute;
-  top: 0;
+  top: 4px;
   left: 0;
 }
 
