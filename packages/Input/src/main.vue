@@ -47,11 +47,14 @@
     >
       {{ errorMessage }}
     </div>
+    <span v-if="validators.indexOf('required') !== -1" class="obligatory-star">
+      *
+    </span>
     <input
       v-if="type !== 'tel'"
       class="r-input"
       v-model="value"
-      :class="inputClass"
+      :class="[inputClass, {'_invalid' : isError}]"
       :disabled="disabled"
       :type="typeComputed"
       :placeholder="placeholder"
@@ -62,7 +65,7 @@
       class="r-input"
       ref="phoneMask"
       v-model="value"
-      :class="inputClass"
+      :class="[inputClass, {'_invalid' : isError}]"
       :disabled="disabled"
       :type="type"
       mask="+7 (###) ###-##-##"
@@ -210,7 +213,7 @@ export default {
           isTrusted: false,
           target: {
             value: ' (',
-          }
+          },
         });
       }
     },
@@ -285,9 +288,19 @@ export default {
   position: relative;
 }
 
+.obligatory-star {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+input {
+  transition: .1s;
+}
+
 .message {
   position: absolute;
-  top: 0;
+  top: 4px;
   left: 0;
   max-width: calc(100% - 20px);
 }
