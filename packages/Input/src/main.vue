@@ -40,7 +40,11 @@
         </div>
       </div>
     </div>
-    <div v-if="isError || isInfo" class="message">
+    <div
+      v-if="isError || isInfo"
+      class="message ellipsis"
+      :title="errorMessage"
+    >
       {{ errorMessage }}
     </div>
     <input
@@ -285,6 +289,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  max-width: calc(100% - 20px);
 }
 
 .password-show {
