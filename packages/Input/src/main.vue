@@ -47,9 +47,6 @@
     >
       {{ errorMessage }}
     </div>
-    <span v-if="validators.indexOf('required') !== -1" class="obligatory-star">
-      *
-    </span>
     <input
       v-if="type !== 'tel'"
       class="r-input"
@@ -286,12 +283,6 @@ export default {
 <style lang="scss" scoped>
 .input-container {
   position: relative;
-}
-
-.obligatory-star {
-  position: absolute;
-  top: 4px;
-  right: 4px;
 }
 
 input {
