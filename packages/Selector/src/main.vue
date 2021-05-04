@@ -22,12 +22,17 @@
     </div>
 
     <!--Выпадашка селектора-->
-    <div v-if="opened" class="selector-popup">
+    <div
+      v-if="opened"
+      class="selector-popup"
+      @mouseleave="hovered = ''"
+    >
       <div
         v-for="(item, i) in options"
         :key="i"
         class="item _truncate"
-        :class="{'_active': item[nameValue] === picked[nameValue]}"
+        :class="{'_active': item[nameValue] === picked[nameValue], '_hovered': hovered === i}"
+        @mouseenter="hovered = i"
         @click="handlePickItem(item)"
       >
         {{ item[nameValue] }}
@@ -92,19 +97,65 @@ export default {
   data: () => ({
     picked: {},
     opened: false,
+    hovered: '',
   }),
 
   watch: {
     pickedItem() {
       this.setPicked();
     },
+
+    options() {
+      this.hovered = '';
+    }
   },
 
   mounted() {
     this.setPicked();
+    document.addEventListener('keyup', this.keyHandler);
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('keyup', this.keyHandler);
   },
 
   methods: {
+    /**
+     * Разводящий обработчик нажатия клавиш
+     */
+    keyHandler(e) {
+      if (this.opened) {
+        if (e.key === 'ArrowUp') this.handleKeyUp();
+        if (e.key === 'ArrowDown') this.handleKeyDown();
+        if (e.keyCode === 13) this.handleEnterPress();
+      }
+    },
+
+    /**
+     * Обработчик нажатия клавиши "вверх"
+     */
+    handleKeyUp() {
+      if (this.hovered === '') this.hovered = this.options.length - 1;
+      if (this.hovered !== 0) this.hovered -= 1;
+    },
+
+    /**
+     * Обработчик нажатия клавиши "вниз"
+     */
+    handleKeyDown() {
+      if (this.hovered === '') this.hovered = 0;
+      if (this.options.length && this.hovered < this.options.length - 1) this.hovered += 1;
+    },
+
+    /**
+     * Обработчик клавиши Enter
+     */
+    handleEnterPress() {
+      if (this.hovered !== '') {
+        this.handlePickItem(this.options[this.hovered]);
+      }
+    },
+
     /**
      * Установка значения полученного извне
      */
@@ -212,7 +263,7 @@ export default {
   padding: 9px 10px;
   cursor: pointer;
 
-  &:hover:not(._active) {
+  &._hovered:not(._active) {
     background: gray;
   }
 
