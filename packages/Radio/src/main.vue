@@ -46,6 +46,7 @@ export default {
     type: {
       type: String,
       default: 'square',
+      validator: type => ['square', 'round'].indexOf(type) > -1,
     },
     uniqGroupName: {
       type: String,
