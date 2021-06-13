@@ -78,6 +78,23 @@ import { TheMask } from 'vue-the-mask';
 
 /**
  * @desc Универсальный компонент инпута.
+ * Добавлен функционал проверки ввода пользователя через regexp. Для включения функционала
+ * нужно передать в компонент:
+ * 'regexp' добавить в массив validators
+ * regexp - должен содержать регулярку, по которой проверять
+ * customErrors - должен содержать текст ошибки для этой проверки. Формат такой:
+ * customErrors: {
+ *   regexp: {
+ *     invalid: 'text'
+ *   }
+ * }
+ * forbidClearOnInput - должен быть поставлен в true, чтобы работала посимвольная проверка
+ * На сам этот компонент нужно повесить обработчик ввода, чтобы форсить проверку при
+ * вводе каждого символа. Выглядит так: @input="$refs.refName.validate()",
+ * где refName - ref этого компонента
+ * Чтобы настройки для этого функционала не валялись где попало, можно посмотреть пример
+ * в корневом сторе: nameInputValidationRules. В нем собраны правила для валидации полей ФИО.
+ *
  * @vue-prop { String } [bindedValue=''] bindedValue - предустановленное
  * значение которое надо установить в value.
  * @vue-prop { Boolean } [enableShowPasswordIcons=true] enableShowPasswordIcons -
@@ -85,6 +102,11 @@ import { TheMask } from 'vue-the-mask';
  * @vue-prop { Object } [showPasswordIcons={}] showPasswordIcons - если нужно передать кастомные
  * иконки для показа/сокрытия пароля, то передавать пути к ним надо сюда как объект c полями show
  * и hide
+ * @vue-prop { Boolean } [forbidClearOnInput=false] forbidClearOnInput - запрещает скидывать
+ * ошибку при вводе символа. Нужен для посимвольной проверки через regexp, иначе ошибка каждый
+ * раз скидывается и смысл посимвольной проверки теряется
+ * @vue-prop { Object } regexp - регулярка, с которой нужно сравнить то, что ввел пользователь.
+ * Позволяет, например, запретить все символы, кроме кириллицыя
  * @vue-computed { String } typeComputed - Перед передачей в шаблон обрабатываем тип.
  * В данный момент используется для тоглера c паролями.
  */
@@ -113,7 +135,7 @@ export default {
       type: String,
       default: '',
     },
-    // required, email
+    // required, email, regexp
     validators: {
       type: Array,
       default: () => [],
@@ -133,6 +155,12 @@ export default {
     showPasswordIcons: {
       type: Object,
       default: () => {},
+    },
+    forbidClearOnInput: {
+      type: Boolean,
+      default: false,
+    },
+    regexp: {
     },
   },
 
@@ -172,11 +200,14 @@ export default {
       }
       return this.type;
     },
+    isRegexp() {
+      return this.validators && this.validators.indexOf('regexp') !== -1;
+    },
   },
 
   watch: {
     value() {
-      this.clear();
+      if (!this.forbidClearOnInput) this.clear();
     },
 
     bindedValue(value) {
@@ -232,6 +263,12 @@ export default {
       if (this.isRequired && !this.value) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary[this.type].required;
+        return false;
+      }
+
+      if (this.isRegexp && !String(this.value).match(this.regexp)) {
+        this.isError = true;
+        this.errorMessage = this.errorsVocabulary.regexp.invalid;
         return false;
       }
 
