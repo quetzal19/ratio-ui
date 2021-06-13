@@ -105,8 +105,10 @@ import { TheMask } from 'vue-the-mask';
  * @vue-prop { Boolean } [forbidClearOnInput=false] forbidClearOnInput - запрещает скидывать
  * ошибку при вводе символа. Нужен для посимвольной проверки через regexp, иначе ошибка каждый
  * раз скидывается и смысл посимвольной проверки теряется
+ * @vue-prop { Boolean } [capitalizeMode=false] capitalizeMode - включает мод, при котором
+ * каждая первая буква слова в инпуте становится заглавной
  * @vue-prop { Object } regexp - регулярка, с которой нужно сравнить то, что ввел пользователь.
- * Позволяет, например, запретить все символы, кроме кириллицыя
+ * Позволяет, например, запретить все символы, кроме кириллицы
  * @vue-computed { String } typeComputed - Перед передачей в шаблон обрабатываем тип.
  * В данный момент используется для тоглера c паролями.
  */
@@ -160,6 +162,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    capitalizeMode: {
+      type: Boolean,
+      default: false,
+    },
     regexp: {
     },
   },
@@ -208,6 +214,15 @@ export default {
   watch: {
     value() {
       if (!this.forbidClearOnInput) this.clear();
+      if (this.capitalizeMode && this.value) {
+        this.value = this.value
+          .split(' ')
+          .map((item) => {
+            if (item) return `${item[0].toUpperCase()}${item.slice(1)}`;
+            return item;
+          })
+          .join(' ');
+      }
     },
 
     bindedValue(value) {
