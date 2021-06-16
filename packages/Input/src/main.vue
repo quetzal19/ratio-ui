@@ -281,7 +281,7 @@ export default {
         return false;
       }
 
-      if (this.isRegexp && !String(this.value).match(this.regexp)) {
+      if (this.isRegexp && !String(this.value).match(this.regexp) && !!this.value) {
         this.isError = true;
         this.errorMessage = this.errorsVocabulary.regexp.invalid;
         return false;
