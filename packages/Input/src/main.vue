@@ -106,7 +106,7 @@ import { TheMask } from 'vue-the-mask';
  * ошибку при вводе символа. Нужен для посимвольной проверки через regexp, иначе ошибка каждый
  * раз скидывается и смысл посимвольной проверки теряется
  * @vue-prop { Boolean } [capitalizeMode=false] capitalizeMode - включает мод, при котором
- * каждая первая буква слова в инпуте становится заглавной
+ * каждая первая буква слова в инпуте становится заглавной, а остальные маленькие
  * @vue-prop { Object } regexp - регулярка, с которой нужно сравнить то, что ввел пользователь.
  * Позволяет, например, запретить все символы, кроме кириллицы
  * @vue-computed { String } typeComputed - Перед передачей в шаблон обрабатываем тип.
@@ -214,15 +214,7 @@ export default {
   watch: {
     value() {
       if (!this.forbidClearOnInput) this.clear();
-      if (this.capitalizeMode && this.value) {
-        this.value = this.value
-          .split(' ')
-          .map((item) => {
-            if (item) return `${item[0].toUpperCase()}${item.slice(1)}`;
-            return item;
-          })
-          .join(' ');
-      }
+      if (this.capitalizeMode && this.value) this.capitalizeInput();
     },
 
     bindedValue(value) {
@@ -247,6 +239,26 @@ export default {
   },
 
   methods: {
+    /**
+     * делает так, что каждая первая буква слова в инпуте становится заглавной,
+     * а остальные маленькие
+     */
+    capitalizeInput() {
+      this.value = this.value
+        .split(' ')
+        .map((item) => {
+          if (item) {
+            const littleLetters = item
+              .slice(1)
+              .split()
+              .map((letter) => letter.toLowerCase())
+              .join();
+            return `${item[0].toUpperCase()}${littleLetters}`;
+          }
+          return item;
+        })
+        .join(' ');
+    },
     /**
      * Активация маски телефона по клику
      */
