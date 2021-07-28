@@ -277,6 +277,8 @@ export default {
      * @returns {boolean}
      */
     validateEmail() {
+      // проверка нужна, чтобы не выкидывать ошибку, если юзер просто очистил поле
+      if (!this.isRequired && !this.value.length) return true;
       // eslint-disable-next-line
       const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       return re.test(String(this.value).toLowerCase());
