@@ -1,5 +1,5 @@
 {
-  "name": "ratio-ui-lib",
+  "name": "@ratio/ratio-ui",
   "version": "0.1.0",
   "private": false,
   "scripts": {
