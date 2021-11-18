@@ -177,17 +177,17 @@ export default {
     errorMessage: '',
     errorsVocabulary: {
       text: {
-        required: '*Поле обязательно',
+        required: 'Поле обязательно',
       },
       password: {
-        required: '*Введите пароль',
+        required: 'Введите пароль',
       },
       email: {
-        required: '*Введите email',
+        required: 'Введите email',
         invalid: 'Email введён неверно',
       },
       tel: {
-        required: '*Введите телефон',
+        required: 'Введите телефон',
         invalid: 'Телефон введён неверно',
       },
     },
